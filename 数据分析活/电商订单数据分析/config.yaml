@@ -1,0 +1,89 @@
+# 数据库配置
+mysql:
+  host: localhost
+  port: 3306
+  database: ecommerce
+  user: root
+  password: root
+
+# Kafka配置
+kafka:
+  bootstrap_servers: localhost:9092
+  topic: orders_stream
+  group_id: ecommerce_group
+  auto_offset_reset: latest
+
+# Spark配置
+spark:
+  app_name: E-commerce Analysis
+  master: local[*]
+  config:
+    spark.executor.memory: 4g
+    spark.driver.memory: 4g
+    spark.sql.shuffle.partitions: 200
+    spark.serializer: org.apache.spark.serializer.KryoSerializer
+
+# Flink配置
+flink:
+  parallelism: 4
+  checkpoint_interval: 10000
+  state_backend: rocksdb
+  taskmanager:
+    memory: 4096m
+    slots: 8
+
+# 监控配置
+monitoring:
+  prometheus_port: 8000
+  grafana_port: 3000
+  alert_thresholds:
+    sales_amount: 10000
+    order_count: 1000
+    active_users: 100
+
+# API配置
+api:
+  host: 0.0.0.0
+  port: 5000
+  debug: false
+  secret_key: your_secret_key
+
+# 日志配置
+logging:
+  level: INFO
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  file: logs/app.log
+  max_size: 10MB
+  backup_count: 5
+
+# 缓存配置
+redis:
+  host: localhost
+  port: 6379
+  db: 0
+  password: null
+
+# 机器学习配置
+ml:
+  train_test_split: 0.2
+  random_state: 42
+  models:
+    sales_prediction:
+      algorithm: prophet
+      params:
+        yearly_seasonality: true
+        weekly_seasonality: true
+    user_prediction:
+      algorithm: random_forest
+      params:
+        n_estimators: 100
+        max_depth: 10
+    recommendation:
+      algorithm: als
+      params:
+        max_iter: 10
+        reg_param: 0.01
+    anomaly_detection:
+      algorithm: isolation_forest
+      params:
+        contamination: 0.1 

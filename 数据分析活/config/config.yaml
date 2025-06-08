@@ -1,0 +1,88 @@
+# 应用配置
+app:
+  name: "SmartTrade Analyzer"
+  version: "1.0.0"
+  debug: false
+  secret_key: "${APP_SECRET_KEY}"
+
+# 数据库配置
+database:
+  mysql:
+    host: "mysql"
+    port: 3306
+    database: "smarttrade"
+    user: "root"
+    password: "${MYSQL_ROOT_PASSWORD}"
+  redis:
+    host: "redis"
+    port: 6379
+    db: 0
+
+# Kafka配置
+kafka:
+  bootstrap_servers: "kafka:9092"
+  topics:
+    orders: "smarttrade.orders"
+    events: "smarttrade.events"
+  consumer_group: "smarttrade_group"
+
+# Spark配置
+spark:
+  master: "spark://spark-master:7077"
+  app_name: "SmartTrade Analysis"
+  config:
+    spark.executor.memory: "2g"
+    spark.driver.memory: "2g"
+    spark.executor.cores: "2"
+    spark.sql.shuffle.partitions: "100"
+
+# Flink配置
+flink:
+  jobmanager_host: "flink-jobmanager"
+  jobmanager_port: 8081
+  parallelism: 2
+  checkpoint_interval: 10000
+  state_backend: "filesystem"
+  state_backend_path: "file:///tmp/flink-checkpoints"
+
+# 数据处理配置
+processing:
+  batch_size: 1000
+  max_retries: 3
+  timeout: 30
+  clean_data:
+    remove_duplicates: true
+    fill_missing: "mean"
+    outlier_threshold: 3
+
+# 分析配置
+analysis:
+  time_window: "1h"
+  user_behavior:
+    session_timeout: 1800
+    min_actions: 5
+  product_association:
+    min_support: 0.01
+    min_confidence: 0.5
+  sales_prediction:
+    forecast_days: 30
+    seasonality_mode: "multiplicative"
+
+# 监控配置
+monitoring:
+  prometheus:
+    host: "prometheus"
+    port: 9090
+    scrape_interval: "15s"
+  grafana:
+    host: "grafana"
+    port: 3000
+    admin_password: "${GRAFANA_PASSWORD}"
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/app.log"
+  max_size: 10485760  # 10MB
+  backup_count: 5 
